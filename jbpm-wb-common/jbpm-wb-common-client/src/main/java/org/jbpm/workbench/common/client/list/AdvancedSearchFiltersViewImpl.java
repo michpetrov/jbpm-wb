@@ -197,14 +197,12 @@ public class AdvancedSearchFiltersViewImpl extends Composite implements Advanced
 
     protected EventListener<KeyboardEvent> getNumericInputListener() {
         return (KeyboardEvent e) -> {
-            int keyCode = e.getKeyCode();
-            if (keyCode <= 0) { //getKeyCode() returns 0 for numbers on Firefox 53
-                keyCode = e.getWhich();
-            }
-            if (!((keyCode >= KeyCodes.KEY_NUM_ZERO && keyCode <= KeyCodes.KEY_NUM_NINE) ||
-                    (keyCode >= KeyCodes.KEY_ZERO && keyCode <= KeyCodes.KEY_NINE) ||
-                    (keyCode == KeyCodes.KEY_BACKSPACE || keyCode == KeyCodes.KEY_LEFT || keyCode == KeyCodes.KEY_RIGHT))) {
-                e.preventDefault();
+            String key = e.getKey();
+            if (key.length() == 1) {
+                char k = key.charAt(0);
+                if (k < '0' || k > '9') {
+                    e.preventDefault();
+                }
             }
         };
     }
