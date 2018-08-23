@@ -84,33 +84,32 @@ public class BasicFiltersViewImplTest {
 
     @Test
     public void testNumericInput() {
-        testValidKeyCode(KeyCodes.KEY_BACKSPACE);
-        testValidKeyCode(KeyCodes.KEY_NINE);
-        testValidKeyCode(KeyCodes.KEY_NUM_EIGHT);
-        testValidKeyCode(KeyCodes.KEY_NUM_ZERO);
+        testValidKey("Backspace");
+        testValidKey("9");
+        testValidKey("8");
+        testValidKey("0");
 
-        testInvalidKeyCode(KeyCodes.KEY_NUM_MINUS);
-        testInvalidKeyCode(KeyCodes.KEY_NUM_PLUS);
-        testInvalidKeyCode(KeyCodes.KEY_SPACE);
-        testInvalidKeyCode(KeyCodes.KEY_INSERT);
+        testInvalidKey("-");
+        testInvalidKey("+");
+        testInvalidKey(" ");
+        testInvalidKey("e");
     }
 
-    protected void testInvalidKeyCode(int keyCode) {
-        testKeyCode(keyCode,
+    protected void testInvalidKey(String key) {
+        testKey(key,
                     1);
     }
 
-    protected void testKeyCode(int keyCode,
-                               int wantedNumberOfInvocations) {
+    protected void testKey(String key, int wantedNumberOfInvocations) {
         final KeyboardEvent event = mock(KeyboardEvent.class);
-        when(event.getKeyCode()).thenReturn(keyCode);
+        when(event.getKey()).thenReturn(key);
         view.getNumericInputListener().call(event);
         verify(event,
                times(wantedNumberOfInvocations)).preventDefault();
     }
 
-    protected void testValidKeyCode(int keyCode) {
-        testKeyCode(keyCode,
+    protected void testValidKey(String key) {
+        testKey(key,
                     0);
     }
 

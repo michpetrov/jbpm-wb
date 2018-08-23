@@ -26,7 +26,6 @@ import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -38,9 +37,7 @@ import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.jboss.errai.common.client.dom.Div;
 import org.jboss.errai.common.client.dom.Event;
-import org.jboss.errai.common.client.dom.EventListener;
 import org.jboss.errai.common.client.dom.HTMLElement;
-import org.jboss.errai.common.client.dom.KeyboardEvent;
 import org.jboss.errai.common.client.dom.MouseEvent;
 
 import org.jboss.errai.common.client.dom.NumberInput;
@@ -54,7 +51,7 @@ import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.ForEvent;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.jbpm.workbench.common.client.util.DateUtils;
-
+import org.jbpm.workbench.common.client.util.NumericInputUtil;
 import org.jbpm.workbench.es.client.i18n.Constants;
 import org.jbpm.workbench.es.model.RequestParameterSummary;
 import org.uberfire.client.mvp.UberElement;
@@ -194,7 +191,7 @@ public class NewJobViewImpl implements NewJobPresenter.NewJobView,
                                      "0");
         jobRetriesInput.setDefaultValue("0");
         jobRetriesInput.addEventListener("keypress",
-                                         getNumericInputListener(),
+                                         NumericInputUtil.getNumericInputListener(),
                                          false);
 
         myParametersGrid.setHeight("200px");
@@ -209,20 +206,6 @@ public class NewJobViewImpl implements NewJobPresenter.NewJobView,
         advancedContent.add(myParametersGrid);
         advancedContent.add(button);
         inlineNotification.setType(InlineNotification.InlineNotificationType.DANGER);
-    }
-
-    protected EventListener<KeyboardEvent> getNumericInputListener() {
-        return (KeyboardEvent e) -> {
-            int keyCode = e.getKeyCode();
-            if (keyCode <= 0) { //getKeyCode() returns 0 for numbers on Firefox 53
-                keyCode = e.getWhich();
-            }
-            if (!((keyCode >= KeyCodes.KEY_NUM_ZERO && keyCode <= KeyCodes.KEY_NUM_NINE) ||
-                    (keyCode >= KeyCodes.KEY_ZERO && keyCode <= KeyCodes.KEY_NINE) ||
-                    (keyCode == KeyCodes.KEY_BACKSPACE || keyCode == KeyCodes.KEY_LEFT || keyCode == KeyCodes.KEY_RIGHT))) {
-                e.preventDefault();
-            }
-        };
     }
 
     public void show() {

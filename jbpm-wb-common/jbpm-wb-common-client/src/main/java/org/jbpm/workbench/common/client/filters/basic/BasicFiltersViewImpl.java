@@ -43,6 +43,7 @@ import org.jbpm.workbench.common.client.filters.active.ActiveFilterItem;
 import org.jbpm.workbench.common.client.list.DatePickerRange;
 import org.jbpm.workbench.common.client.resources.i18n.Constants;
 import org.jbpm.workbench.common.client.util.DateRange;
+import org.jbpm.workbench.common.client.util.NumericInputUtil;
 import org.uberfire.client.views.pfly.widgets.DateRangePicker;
 import org.uberfire.client.views.pfly.widgets.DateRangePickerOptions;
 import org.uberfire.client.views.pfly.widgets.JQueryProducer;
@@ -177,17 +178,7 @@ public class BasicFiltersViewImpl implements BasicFiltersView,
     }
 
     protected EventListener<KeyboardEvent> getNumericInputListener() {
-        return (KeyboardEvent e) -> {
-            int keyCode = e.getKeyCode();
-            if (keyCode <= 0) { //getKeyCode() returns 0 for numbers on Firefox 53
-                keyCode = e.getWhich();
-            }
-            if (!((keyCode >= KeyCodes.KEY_NUM_ZERO && keyCode <= KeyCodes.KEY_NUM_NINE) ||
-                    (keyCode >= KeyCodes.KEY_ZERO && keyCode <= KeyCodes.KEY_NINE) ||
-                    (keyCode == KeyCodes.KEY_BACKSPACE || keyCode == KeyCodes.KEY_LEFT || keyCode == KeyCodes.KEY_RIGHT))) {
-                e.preventDefault();
-            }
-        };
+        return NumericInputUtil.getNumericInputListener();
     }
 
     @Override
